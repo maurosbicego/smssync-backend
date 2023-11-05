@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  traefik:
+    image: traefik:v2.6
+    command:
+      - "--api.insecure=true"
+      - --entrypoints.web.address=:80
+      - "--entrypoints.api.address=:8123"
+      - --entrypoints.web-secure.address=:443
+      - --providers.docker=true
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "8123:8123"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 80
+    volumes:
+      - "./api:/api"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fastapi.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.whoami.entrypoints=api"

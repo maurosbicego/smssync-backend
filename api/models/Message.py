@@ -1,9 +1,7 @@
 # Class Information
 # A "Message" is a message element (great naming right!!) that contains details such as content, sender, when received etc.
 
-from typing import Optional
-from pydantic import BaseModel, ConfigDict, Field
-from bson.objectid import ObjectId
+from pydantic import BaseModel
 from datetime import datetime
 
 from models.PhoneNumber import PhoneNumber
